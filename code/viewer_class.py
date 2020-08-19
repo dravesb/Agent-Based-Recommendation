@@ -10,15 +10,18 @@ class Viewer(Agent):
         self.ratings = np.zeros(num_movies)
         self.is_rated = np.full([num_movies], False, dtype=bool)
         self.neighbors = random.sample(range(num_agents), 1)
-        
-        
+        self.preferenecs = np.zeros(num_movies)
+    
+    """Update neighbors based on raters network"""    
     def update_neighbors(self, graph):
          return   
     
+    """Get a movie recomendation for your neighbors"""
     def get_movie_recommendation(self, lst):
         #just choose a random movie in the list
         return(np.random.choice(lst, 1)[0])
     
+    """Make a rating based on your personal preferences"""
     def make_rating(self, movie_id):
         #return random rating
         return(np.random.beta(1, 1))        

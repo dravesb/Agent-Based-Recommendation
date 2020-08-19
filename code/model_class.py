@@ -1,5 +1,6 @@
 from viewer_class import Viewer
 from viewer_graph_class import ViewerGraph
+from movie_class import Movie
 from mesa import Model
 from mesa.time import RandomActivation
 
@@ -16,7 +17,12 @@ class RatingModel(Model):
         #Initialize viewer graph
         self.G = ViewerGraph(N)
         
-        # Create agents and add to schedule        
+        #create movies and movie list
+        self.movies = []
+        for i in range(self.num_movies):
+            self.movies.append(Movie(i, 10))
+            
+        # Create viewers and add to schedule        
         self.schedule = RandomActivation(self)
         for i in range(self.num_viewers):
             a = Viewer(i, self.num_viewers, self.num_movies, self.G)

@@ -6,12 +6,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 import networkx as nx
+import random
+
+#setting seed
+random.seed(1985)
 
 #Run the model for a certain number of steps
 N = 100
 M = 200
 test_model = RatingModel(N, M)
-for i in range(int(M/1.5)):
+for i in range(int(M/4)):
     test_model.step()
 
 #cast as DataFrame for visualizations

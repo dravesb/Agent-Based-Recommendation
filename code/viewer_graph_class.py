@@ -11,11 +11,10 @@ class ViewerGraph():
         group_sizes[0] += N - sum(group_sizes)
         
         #Make P 
-        P = np.full((K, K), .05)
-        np.fill_diagonal(P, .25)
+        P = np.full((K, K), .025)
+        np.fill_diagonal(P, .3)
         
         #get G 
-        self.Graph = sbm(n = group_sizes, p = P)
+        self.groups = np.repeat(list(range(K)), group_sizes)
+        self.adj_matrix = sbm(n = group_sizes, p = P)
     
-    def update(self):
-        return 

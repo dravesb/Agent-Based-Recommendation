@@ -5,12 +5,13 @@ from model_class import RatingModel
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+import networkx as nx
 
 #Run the model for a certain number of steps
 N = 100
 M = 200
 test_model = RatingModel(N, M)
-for i in range(int(M/1.1)):
+for i in range(int(M/1.5)):
     test_model.step()
 
 #cast as DataFrame for visualizations
@@ -32,7 +33,7 @@ plt.show()
 
 #make Heatmap of R = n x m ratings matrix 
 R = df.to_numpy()
-plt.figure(figsize = (int(10 * N/(N + M)), int(10 * M/(N + M))))
+plt.figure(figsize = (int(20 * M/(N + M)), int(20 * N/(N + M))))
 plt.imshow(R)
 #plt.colorbar()
 plt.title('Rating Matrix')
@@ -40,4 +41,13 @@ plt.xlabel('Movies')
 plt.ylabel('Viewers')
 plt.savefig('../figures/example_ratings_matrix.png')
 #save for demo
+
+#plot viewer graph
+plt.figure(figsize = (7, 7))
+G = nx.from_numpy_matrix(test_model.viewer_graph.adj_matrix)
+nx.draw_networkx(G, with_labels = False, cmap = 'jet',
+                 node_size = 50, node_color = test_model.viewer_graph.groups,
+                 alpha = .5, edge_color = 'grey', linewidths = .25)
+plt.title('Viewer\'s Social Network')
+plt.savefig('../figures/viewers_social_network.png')
 

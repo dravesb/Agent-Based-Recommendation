@@ -1,19 +1,22 @@
-from viewer_class import Viewer
-from viewer_graph_class import ViewerGraph
-from movie_class import Movie
+from code.viewer_class import Viewer
+from code.viewer_graph_class import ViewerGraph
+from code.movie_class import Movie
 from mesa import Model
 from mesa.time import RandomActivation
 import numpy as np
+from mesa.space import MultiGrid
+
 
 class RatingModel(Model):
     """A model with some number of viewers."""
-    def __init__(self, N, M):
+    def __init__(self, N, M, K):
         
         #Unpack arguments
         self.num_viewers = N
         self.num_movies = M
-        self.num_categories = 10
-        
+        self.num_categories = K
+        self.grid = MultiGrid(1, N, True)
+
         #Initialize viewer graph
         self.viewer_graph = ViewerGraph(N)
         
@@ -28,11 +31,18 @@ class RatingModel(Model):
             a = Viewer(i, self.num_viewers, self.num_movies, 
                        np.nonzero(self.viewer_graph.adj_matrix[i, :]), self)
             self.schedule.add(a)
+
+            # Add the agent to a grid cell
+            self.grid.place_agent(a, (0, i))
         
             
     def get_current_ratings(self):
-        print([a.ratings for a in self.schedule.agents])
+        return [a.ratings for a in self.schedule.agents]
         
     def step(self):
         self.schedule.step()
+
+    def run_model(self):
+    	for i in range(self.run_time):
+    		self.step()
         

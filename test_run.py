@@ -1,7 +1,5 @@
 # Executing the Model
-import os 
-os.chdir('/Users/benjamindraves/Desktop/Agent-Based-Recommendation/code')
-from model_class import RatingModel
+from code.model import RatingModel
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -14,7 +12,8 @@ random.seed(1985)
 #Run the model for a certain number of steps
 N = 100
 M = 200
-test_model = RatingModel(N, M)
+K = 10
+test_model = RatingModel(N, M, K)
 for i in range(int(M/4)):
     test_model.step()
 
@@ -43,7 +42,7 @@ plt.imshow(R)
 plt.title('Rating Matrix')
 plt.xlabel('Movies')
 plt.ylabel('Viewers')
-plt.savefig('../figures/example_ratings_matrix.png')
+plt.savefig('./figures/example_ratings_matrix.png')
 #save for demo
 
 #plot viewer graph
@@ -53,5 +52,6 @@ nx.draw_networkx(G, with_labels = False, cmap = 'jet',
                  node_size = 50, node_color = test_model.viewer_graph.groups,
                  alpha = .5, edge_color = 'grey', linewidths = .25)
 plt.title('Viewer\'s Social Network')
-plt.savefig('../figures/viewers_social_network.png')
+plt.savefig('./figures/viewers_social_network.png')
+plt.show()
 
